@@ -1,0 +1,124 @@
+body {
+    font-family: 'Roboto', sans-serif, verdana;
+    font-size: 16px;
+}
+
+#gradientCon {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    overflow: hidden;
+    z-index: -1;
+    box-sizing: border-box;
+}
+
+#gradient {
+    background: linear-gradient(to right, #b7422d 0%, #d18b4f 10%, #e0ca82 20%, #aac382 30%, #87af7b 40%, #4e9682 50%, #488c94 60%, #487394 70%, #785fb1 80%, #a35680 90%, #b7422d 100%) repeat;
+    background-size: 75% 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 400vw;
+    opacity: 0.8;
+}
+
+.main-column {
+    margin: auto;
+    width: 80%;
+}
+
+.content {
+    margin-top: 1em;
+    width: 100%;
+    background: #FFFFFF;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    padding: 15px;
+    border-radius: 1px;
+    display: block;
+    overflow: hidden;
+}
+
+.column {
+    float: left;
+    width: 50%;
+    height: 34em;
+    position: relative;
+}
+
+#tree, #result {
+    background-color: transparent;
+}
+
+#tree {
+    height: 34em;
+}
+
+#graph {
+    height: 22em;
+}
+
+#editor {
+    box-sizing: border-box;
+    height: 12em;
+    width: 100%;
+}
+
+#info {
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+.hint {
+    font-size: 1em;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.btn {
+    cursor: pointer;
+    border-radius: 3px;
+    text-align: center;
+    padding: 2px 8px;
+    border: 1px solid #808080;
+    float: left;
+    color: white;
+    margin-right: 3px;
+    transition: 0.2s;
+}
+
+.green {
+    background-color: #598f5b;
+}
+
+.green:hover {
+    background-color: #71ae73;
+}
+
+.green:active {
+    background-color: #128f10;
+}
+
+.red {
+    background-color: #b14848;
+}
+
+.red:hover {
+    background-color: #d05151;
+}
+
+.red:active {
+    background-color: #b12220;
+}
+
+.header {
+    margin-top: 0.66em;
+    font-size: 1.5em;
+    text-align: center;
+    color: white;
+    width: 100%;
+}
