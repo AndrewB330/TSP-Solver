@@ -23,31 +23,14 @@
         </script>
     </div>
     <div class="main-column">
-        <div class="header">Travelling Salesman Problem Solver</div>
-        <div class="content">
-            <div class="column">
-                <div class="hint" style="left:0">
-                    <b>DoubleClick</b> - add point <br>
-                    <b>Drag</b> - move point<br>
-                </div>
-                <div id="graph"></div>
-                <textarea id="editor"></textarea>
-                <div class="btn green" onclick="solvePlanar();">Solve</div>
-                <div class="btn red" onclick="stopAnimation(); reset();">Stop/Reset</div>
-            </div>
-            <div class="column">
-                <div id="tree"></div>
-                <div id="info"></div>
-                <div class="hint">
-                    <span style="color:#e9db28">Yellow</span> - start<br>
-                    <span style="color:#138412">Green</span> - result path<br>
-                    <span style="color:#d51913">Red</span> - bad node<br>
-                    Click a node for details
-                </div>
-            </div>
-            <script type="text/javascript" src="js/script.js"></script>
-            <script type="text/javascript" src="js/editor.js"></script>
-            <script type="text/javascript" src="js/solver.js"></script>
+        <div class="header index">Travelling Salesman Problem Solver</div>
+        <div class="algorithms">
+            <a class="algorithm" href="branch-and-bound.html">
+                Branch and Bound
+            </a>
+            <a class="algorithm" href="annealing.html">
+                Simulated Annealing
+            </a>
         </div>
     </div>
 </body>

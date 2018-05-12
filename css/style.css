@@ -28,6 +28,7 @@ body {
 .main-column {
     margin: auto;
     width: 80%;
+    min-width: 45em;
 }
 
 .content {
@@ -45,7 +46,10 @@ body {
     float: left;
     width: 50%;
     height: 34em;
+    box-sizing: border-box;
     position: relative;
+    display: flex;
+    flex-direction: column;
 }
 
 #tree, #result {
@@ -57,26 +61,38 @@ body {
 }
 
 #graph {
-    height: 22em;
+    height: 34em;
 }
 
 #editor {
     box-sizing: border-box;
-    height: 12em;
+    height: 100%;
     width: 100%;
+    resize: none;
 }
 
 #info {
-    position: absolute;
-    left: 0;
-    top: 0;
 }
 
 .hint {
     font-size: 1em;
     position: absolute;
-    right: 0;
+}
+
+.top {
     top: 0;
+}
+
+.bottom {
+    bottom: 0;
+}
+
+.left {
+    left: 3px;
+}
+
+.right {
+    right: 3px;
 }
 
 .btn {
@@ -87,8 +103,11 @@ body {
     border: 1px solid #808080;
     float: left;
     color: white;
-    margin-right: 3px;
+    margin-right: 1%;
+    width: 49.5%;
+    margin-bottom: 3px;
     transition: 0.2s;
+    box-sizing: border-box;
 }
 
 .green {
@@ -116,9 +135,52 @@ body {
 }
 
 .header {
+    display: block;
     margin-top: 0.66em;
     font-size: 1.5em;
     text-align: center;
-    color: white;
+    color: white !important;
     width: 100%;
+}
+
+.header:hover, .header:active {
+    color: white;
+}
+
+.index {
+    margin-top: 4em;
+    font-size: 2em;
+}
+
+.algorithms {
+    margin: 1em auto auto;
+    display: block;
+    overflow: hidden;
+    width: 60%;
+}
+
+.algorithm {
+    float: left;
+    background-color: white;
+    border-radius: 2px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    padding: 15px;
+    display: block;
+    overflow: hidden;
+    width: 45%;
+    text-align: center;
+    box-sizing: border-box;
+    margin-right: 5%;
+    cursor: pointer;
+    transition: 0.2s;
+    font-size: 1.2em;
+}
+
+.algorithm:hover {
+    background-color: #e0e0e0;
+}
+
+.algorithm:active {
+    background-color: #707070;
+    color: white;
 }

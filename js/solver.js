@@ -1,4 +1,3 @@
-
 var info = document.getElementById('info');
 
 function approximate(path, n, d) {
@@ -51,7 +50,7 @@ function nextState(state, next, n, d) {
     return nextState;
 }
 
-function solvePlanar() {
+function solvePlanar(solver) {
     var nodes = graph.nodes;
     var n = nodes.length;
     var d = new Array(n);
@@ -61,11 +60,9 @@ function solvePlanar() {
             var dx = nodes.get(i).x - nodes.get(j).x;
             var dy = nodes.get(i).y - nodes.get(j).y;
             d[i][j] = Math.sqrt(dx * dx + dy * dy);
-            //d[i][j] = randomInt(5,50);
         }
     }
-    console.log(d);
-    solve(n, d);
+    solver(n, d);
 }
 
 function reset() {
@@ -75,7 +72,7 @@ function reset() {
     info.innerHTML = '';
 }
 
-function solve(n, d) {
+function solveBranchAndBound(n, d) {
     stopAnimation();
     reset();
     var queue = new TinyQueue([], function (a, b) {
@@ -92,7 +89,6 @@ function solve(n, d) {
     };
     var idCounter = 1;
     queue.push(initial);
-    //tree.nodes.add({id: initial.id});
     var result = {length: Infinity};
     var delay = 0;
     tree.nodes.add({
@@ -181,6 +177,90 @@ function solve(n, d) {
     }
 }
 
+function getPath(start, next) {
+    var path = [];
+    var v = start;
+    do {
+        path.push(v);
+        v = next[v];
+    }while(v !== start);
+    return path;
+}
+
+function reverse(start, finish, next) {
+    var p = next[start];
+    var prev = start;
+    do {
+        var ne = next[p];
+        next[p] = prev;
+        prev = p;
+        p = ne;
+    }while(prev !== finish);
+}
+
+function solveAnnealing(n, d) {
+    var path = [];
+    var length = 0;
+    var next = new Array(n);
+    var used = new Array(n);
+    var v = 0;
+    for (var i = 1; i < n; i++) {
+        var nearest = -1;
+        used[v] = true;
+        for (var j = 0; j < n; j++) {
+            if (!used[j] && (nearest === -1 || d[v][j] < d[v][nearest])) {
+                nearest = j;
+            }
+        }
+        length += d[v][nearest];
+        next[v] = nearest;
+        v = nearest;
+    }
+    console.log(v);
+    next[v] = 0;
+    length += d[v][0];
+    path = getPath(0, next);
+    displayPath(path);
+    var temperature = length / (1.5 * n);
+    var fadeFactor = 0.999;
+    var iterationsNumber = 5000;
+    var delay = 0;
+    if (path.length > 3) {
+        for (var iteration = 0; iteration < iterationsNumber;) {
+            var a = randomInt(0, n);
+            var b = randomInt(0, n);
+            var ca = (a + 1) % n;
+            var cb = (b - 1 + n) % n;
+            if (a === b || b === ca || a === cb || ca === cb) continue;
+            var newLength = length
+                - d[path[a]][path[ca]]
+                - d[path[b]][path[cb]]
+                + d[path[a]][path[cb]]
+                + d[path[b]][path[ca]];
+            var delta = newLength - length;
+            var p = Math.exp(-delta / temperature);
+            if (Math.random() < p) {
+                console.log(newLength);
+                length = newLength;
+                reverse(path[ca],path[cb],next);
+                next[path[a]] = path[cb];
+                next[path[ca]] = path[b];
+                path = getPath(0, next);
+                setTimeout(displayPath, delay, path);
+                setTimeout(function(iteration, temperature, length){
+                    info.innerHTML = '<b>Iteration: </b>' + iteration + '<br>' +
+                        '<b>Temperature: </b>' + temperature.toFixed(3) + '<br>' +
+                        '<b>Length: </b>' + length.toFixed(3);
+                }, delay, iteration, temperature, length);
+                delay += 100;
+            }
+
+            iteration++;
+            temperature *= fadeFactor;
+        }
+    }
+}
+
 treeNetwork.on('click', function (param) {
     if (param.nodes.length > 0) {
         var state = tree.nodes.get(param.nodes[0]).state;
@@ -188,12 +268,16 @@ treeNetwork.on('click', function (param) {
     }
 });
 
-function displayState(state) {
+function displayPath(path) {
     graph.edges.clear();
     var n = graph.nodes.length;
     for (var i = 0; i < n; i++) {
-        graph.edges.add({from: state.path[i], to: state.path[(i + 1) % n]});
+        graph.edges.add({from: path[i], to: path[(i + 1) % n]});
     }
+}
+
+function displayState(state) {
+    displayPath(state.path);
     info.innerHTML = '<b>Length:</b> ' + state.length.toFixed(3) + '<br>' +
         '<b>Approximation:</b> ' + state.approximation.toFixed(3) + '<br>' +
         '<b>Path:</b> ' + state.path.join(' > ');
